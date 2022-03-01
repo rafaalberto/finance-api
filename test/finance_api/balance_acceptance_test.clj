@@ -13,7 +13,7 @@
 (defn stop-server []
   (.stop @server))
 
-(fact "Starts and stops server"
+(fact "Starts and stops server" :acceptance
       (start-server 3001)
       (:body (http/get "http://localhost:3001/balance")) => "0"
       (stop-server))

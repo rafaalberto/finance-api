@@ -17,9 +17,20 @@
 
 
  - Testing
+   
+   1. General
  
-    ` lein midje`
+     ` lein midje`
 
+
+   2. With Filter
+
+      ` lein midje :filters acceptance`
+
+
+   3. With Filter except...
+   
+      ` lein midje :filters -acceptance`
 
  - AutoTesting
 
