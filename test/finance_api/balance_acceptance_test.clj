@@ -1,22 +1,8 @@
 (ns finance-api.balance-acceptance-test
   (:require [midje.sweet :refer :all])
-  (:require [finance-api.handler :refer [app]])
-  (:require [ring.adapter.jetty :refer [run-jetty]])
-  (:require [clj-http.client :as http]))
+  (:require [finance-api.acceptance-template-test :refer :all]))
 
-(def server (atom nil))
-
-(defn start-server [port]
-  (swap! server
-         (fn [_] (run-jetty app {:port port :join? false}))))
-
-(defn stop-server []
-  (.stop @server))
-
-(def default-port 3001)
-
-(against-background
-  [(before :facts (start-server default-port))
-   (after :facts (stop-server))]
+(against-background [(before :facts (start-server default-port))
+                     (after :facts (stop-server))]
   (fact "The initial balance is 0" :acceptance
-        (:body (http/get "http://localhost:3001/balance")) => "0"))
+        (get-content "/balance") => "0"))
