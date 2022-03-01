@@ -18,17 +18,17 @@
 
  - Testing
    
-   1. General
+   1. Run all tests
  
      ` lein midje`
 
 
-   2. With Filter
+   2. Run tests applying Filter
 
       ` lein midje :filters acceptance`
 
 
-   3. With Filter except...
+   3. Run tests except...
    
       ` lein midje :filters -acceptance`
 
