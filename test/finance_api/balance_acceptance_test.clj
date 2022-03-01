@@ -1,4 +1,4 @@
-(ns acceptance.finance-api.balance-acceptance-test
+(ns finance-api.balance-acceptance-test
   (:require [midje.sweet :refer :all])
   (:require [finance-api.handler :refer [app]])
   (:require [ring.adapter.jetty :refer [run-jetty]])
@@ -13,7 +13,10 @@
 (defn stop-server []
   (.stop @server))
 
-(fact "Starts and stops server" :acceptance
-      (start-server 3001)
-      (:body (http/get "http://localhost:3001/balance")) => "0"
-      (stop-server))
+(def default-port 3001)
+
+(against-background
+  [(before :facts (start-server default-port))
+   (after :facts (stop-server))]
+  (fact "The initial balance is 0" :acceptance
+        (:body (http/get "http://localhost:3001/balance")) => "0"))
