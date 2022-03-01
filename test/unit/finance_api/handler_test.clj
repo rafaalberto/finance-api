@@ -1,4 +1,4 @@
-(ns finance-api.handler-test
+(ns unit.finance-api.handler-test
   (:require [midje.sweet :refer :all]
             [ring.mock.request :as mock]
             [finance-api.handler :refer :all]))

@@ -1,4 +1,4 @@
-(ns finance-api.balance-acceptance-test
+(ns acceptance.finance-api.balance-acceptance-test
   (:require [midje.sweet :refer :all])
   (:require [finance-api.handler :refer [app]])
   (:require [ring.adapter.jetty :refer [run-jetty]])
