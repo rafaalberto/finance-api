@@ -1,4 +1,4 @@
-(defproject finance-api "0.1.0-SNAPSHOT"
+(defproject finance-api "1.0.0-SNAPSHOT"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :min-lein-version "2.0.0"
@@ -15,4 +15,5 @@
                         [ring/ring-core "1.9.5"]
                         [ring/ring-jetty-adapter "1.9.5"]]
          :plugins      [[lein-midje "3.2.2"]
-                        [lein-cloverage "1.0.13"]]}})
+                        [lein-cloverage "1.0.13"]]}}
+  :test-paths ["test/unit" "test/acceptance"])

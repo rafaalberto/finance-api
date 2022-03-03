@@ -1,4 +1,4 @@
-(ns finance-api.handler
+(ns finance.handler
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]))

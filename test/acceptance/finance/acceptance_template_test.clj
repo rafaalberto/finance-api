@@ -1,5 +1,5 @@
-(ns finance-api.acceptance-template-test
-  (:require [finance-api.handler :refer [app]])
+(ns finance.acceptance-template-test
+  (:require [finance.handler :refer [app]])
   (:require [ring.adapter.jetty :refer [run-jetty]])
   (:require [clj-http.client :as http]))
 

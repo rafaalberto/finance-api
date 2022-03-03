@@ -5,16 +5,28 @@
 ### Technologies & Libraries
 
 - Compojure (Routing Library for Ring)
-- Ring (Web Application for Clojure)
+- Ring (Web Application Library for Clojure)
 - Midje (Alternative library for tests in Clojure)
 - Cloverage (Test Coverage)
 
 ### Commands
 
- - Running
+ - Create project
+
+    `lein new compojure finance-api`
+
+
+ - Running (Default port 3000)
 
    ` lein ring server`
 
+ - Running (Alternative port)
+
+  ` lein ring server 8080`
+
+ - Running without opening a Web Browser
+
+  ` lein ring server-headless`
 
  - Testing
    

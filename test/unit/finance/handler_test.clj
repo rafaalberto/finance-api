@@ -1,7 +1,7 @@
-(ns finance-api.handler-test
+(ns finance.handler-test
   (:require [midje.sweet :refer :all]
             [ring.mock.request :as mock]
-            [finance-api.handler :refer :all]))
+            [finance.handler :refer :all]))
 
 (facts "Display 'Hello World' at root route"
        (let [response (app (mock/request :get "/"))]
