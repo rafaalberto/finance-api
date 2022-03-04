@@ -1,8 +1,9 @@
 (ns finance.handler-test
   (:require [midje.sweet :refer :all]
             [ring.mock.request :as mock]
+            [cheshire.core :as json]
             [finance.handler :refer :all]
-            [cheshire.core :as json]))
+            [finance.database :as database]))
 
 (facts "Initial balance is 0"
        (against-background
@@ -23,7 +24,7 @@
          (fact "Status is 201"
                (:status response) => 201)
          (fact "Response body is a JSON"
-               (:body response) => "{\"id\": 1, \"amount\":10, \"type\": \"Deposit\"}")))
+               (:body response) => "{\"id\":1,\"amount\":10,\"type\":\"Deposit\"}")))
 
 (facts "Invalid route does not exists"
        (let [response (app (mock/request :get "invalid"))]
