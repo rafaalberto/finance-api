@@ -12,7 +12,7 @@
    :body    (json/generate-string content)})
 
 (defroutes app-routes
-           (GET "/balance" [] (content-as-json {:balance 0}))
+           (GET "/balance" [] (content-as-json {:balance (database/get-balance)}))
            (POST "/transactions" request (-> (database/insert (:body request))
                                              (content-as-json 201)))
            (route/not-found "Not Found"))

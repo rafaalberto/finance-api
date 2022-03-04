@@ -6,8 +6,8 @@
             [finance.database :as database]))
 
 (facts "Initial balance is 0"
-       (against-background
-         (json/generate-string {:balance 0}) => "{\"balance\":0}")
+       (against-background [(json/generate-string {:balance 0}) => "{\"balance\":0}"
+                            (database/get-balance) => 0])
        (let [response (app (mock/request :get "/balance"))]
          (fact "The format is 'application/json'"
                (get-in response [:headers "Content-Type"]) => "application/json; charset=utf-8")

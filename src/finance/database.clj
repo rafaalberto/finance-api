@@ -11,3 +11,15 @@
 
 (defn clear []
   (reset! transactions []))
+
+(defn- deposit? [transaction]
+  (= (:type transaction) "Deposit"))
+
+(defn- calculate [total transaction]
+  (let [amount (:amount transaction)]
+    (if (deposit? transaction)
+      (+ total amount)
+      (- total amount))))
+
+(defn get-balance []
+  (reduce calculate 0 @transactions))
