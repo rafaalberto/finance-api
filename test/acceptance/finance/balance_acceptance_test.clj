@@ -10,7 +10,7 @@
   (fact "The initial balance is 0" :acceptance
         (json/parse-string (get-content "/balance") true) => {:balance 0})
   (fact "The balance must be 10 when put 'Deposit' transaction with 10" :acceptance
-        (http/post (get-url "/transactions")
+        (http/post (create-url "/transactions")
                    {:content-type :json
                     :body         (json/generate-string {:amount 10 :type "Deposit"})})
         (json/parse-string (get-content "/balance") true) => {:balance 10}))

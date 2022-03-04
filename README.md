@@ -8,6 +8,7 @@
 - Ring (Web Application Library for Clojure)
 - Midje (Alternative library for tests in Clojure)
 - Cloverage (Test Coverage)
+- Ring JSON (Handle JSON requests and responses)
 
 ### Commands
 

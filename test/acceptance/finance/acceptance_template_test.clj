@@ -14,9 +14,9 @@
 
 (def default-port 3001)
 
-(defn get-url [route]
+(defn create-url [route]
   (str "http://localhost:" default-port route))
 
-(def request-to (comp http/get get-url))
+(def request-to (comp http/get create-url))
 
 (defn get-content [route] (:body (request-to route)))
