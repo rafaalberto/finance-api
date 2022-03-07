@@ -4,7 +4,8 @@
             [cheshire.core :as json]
             [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
             [ring.middleware.json :refer [wrap-json-body]]
-            [finance.database :as database]))
+            [finance.database :as database]
+            [finance.transaction :as transaction]))
 
 (defn content-as-json [content & [status]]
   {:status  (or status 200)
@@ -13,8 +14,11 @@
 
 (defroutes app-routes
            (GET "/balance" [] (content-as-json {:balance (database/get-balance)}))
-           (POST "/transactions" request (-> (database/insert (:body request))
-                                             (content-as-json 201)))
+           (POST "/transactions" request
+             (if (transaction/is-valid? (:body request))
+               (-> (database/insert (:body request))
+                   (content-as-json 201))
+               (content-as-json {:message "Invalid request"} 422)))
            (route/not-found "Not Found"))
 
 (def app

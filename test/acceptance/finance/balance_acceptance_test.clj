@@ -16,13 +16,28 @@
                     :body         (json/generate-string {:amount 10 :type "Deposit"})})
         (json/parse-string (get-content "/balance") true) => {:balance 10})
   (fact "The balance is 1000 when put 'Deposit' with 2000 and 'Withdraw'" :acceptance
-        (http/post (create-url "/transactions")
-                   {:content-type :json
-                    :body         (json/generate-string {:amount 2000 :type "Deposit"})})
-        (http/post (create-url "/transactions")
-                   {:content-type :json
-                    :body         (json/generate-string {:amount 2000 :type "Deposit"})})
-        (http/post (create-url "/transactions")
-                   {:content-type :json
-                    :body         (json/generate-string {:amount 3000 :type "Withdraw"})})
-        (json/parse-string (get-content "/balance") true) => {:balance 1000}))
+        (http/post (create-url "/transactions") (deposit 2000))
+        (http/post (create-url "/transactions") (deposit 2000))
+        (http/post (create-url "/transactions") (withdraw 3000))
+        (json/parse-string (get-content "/balance") true) => {:balance 1000})
+  (fact "Deny transaction without amount" :acceptance
+        (let [response (http/post (create-url "/transactions")
+                                  (content-as-json {:type "Deposit"}))]
+          (:status response) => 422))
+  (fact "Deny transaction without negative amount" :acceptance
+        (let [response (http/post (create-url "/transactions")
+                                  (deposit -100))]
+          (:status response) => 422))
+  (fact "Deny transaction with no number type" :acceptance
+        (let [response (http/post (create-url "/transactions")
+                                  (deposit "a"))]
+          (:status response) => 422))
+  (fact "Deny transaction without type" :acceptance
+        (let [response (http/post (create-url "/transactions")
+                                  (content-as-json {:amount 1000}))]
+          (:status response) => 422))
+  (fact "Deny transaction with unknown type" :acceptance
+        (let [response (http/post (create-url "/transactions")
+                                  (content-as-json {:amount 1000 :type "Transfer"}))]
+          (:status response) => 422))
+  )

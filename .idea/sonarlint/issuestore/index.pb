@@ -6,5 +6,9 @@
 :
 
 .gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
-d
-4test/acceptance/finance/acceptance_template_test.clj,c/b/cb8165d3fe8d68b5f96e8abccae5b530d27d988e
+9
+	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+R
+"test/unit/finance/handler_test.clj,6/f/6fbaca12b51c3d2dd4bbff853d56e3cf9bf3faad
+S
+#test/unit/finance/database_test.clj,e/4/e4087e1714e22972af46712d8049a3690d81a44e
