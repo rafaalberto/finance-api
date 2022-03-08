@@ -23,3 +23,6 @@
 
 (defn get-balance []
   (reduce calculate 0 @transactions))
+
+(defn transactions-by-type [type]
+  (filter #(= type (:type %)) (get-transactions)))

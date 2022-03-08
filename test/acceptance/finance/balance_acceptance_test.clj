@@ -6,7 +6,8 @@
   (:require [finance.acceptance-template-test :refer :all]))
 
 (against-background
-  [(before :facts [(start-server default-port) (database/clear)])
+  [(before :facts [(start-server default-port)
+                   (database/clear)])
    (after :facts (stop-server))]
   (fact "The initial balance is 0" :acceptance
         (json/parse-string (get-content "/balance") true) => {:balance 0})
@@ -39,5 +40,4 @@
   (fact "Deny transaction with unknown type" :acceptance
         (let [response (http/post (create-url "/transactions")
                                   (content-as-json {:amount 1000 :type "Transfer"}))]
-          (:status response) => 422))
-  )
+          (:status response) => 422)))

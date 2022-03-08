@@ -5,6 +5,13 @@
             [finance.handler :refer :all]
             [finance.database :as database]))
 
+(facts "Invalid route does not exists"
+       (let [response (app (mock/request :get "invalid"))]
+         (fact "Error code is 404"
+               (:status response) => 404)
+         (fact "Response body is 'Not Found'"
+               (:body response) => "Not Found")))
+
 (facts "Initial balance is 0"
        (against-background [(json/generate-string {:balance 0}) => "{\"balance\":0}"
                             (database/get-balance) => 0])
@@ -26,9 +33,21 @@
          (fact "Response body is a JSON"
                (:body response) => "{\"id\":1,\"amount\":10,\"type\":\"Deposit\"}")))
 
-(facts "Invalid route does not exists"
-       (let [response (app (mock/request :get "invalid"))]
-         (fact "Error code is 404"
-               (:status response) => 404)
-         (fact "Response body is 'Not Found'"
-               (:body response) => "Not Found")))
+(facts "There are routes to handle transaction filter by type"
+       (against-background [(database/transactions-by-type "Deposit") => '({:id 1 :amount 2000 :type "Deposit"})
+                            (database/transactions-by-type "Withdraw") => '({:id 2 :amount 89 :type "Withdraw"})
+                            (database/get-transactions) => '({:id 1 :amount 2000 :type "Deposit"}
+                                                             {:id 2 :amount 89 :type "Withdraw"})]
+                           (fact "Filter by Deposit"
+                                 (let [response (app (mock/request :get "/deposits"))]
+                                   (:status response) => 200
+                                   (:body response) => (json/generate-string {:transactions '({:id 1 :amount 2000 :type "Deposit"})})))
+                           (fact "Filter by Withdraw"
+                                 (let [response (app (mock/request :get "/withdraws"))]
+                                   (:status response) => 200
+                                   (:body response) => (json/generate-string {:transactions '({:id 2 :amount 89 :type "Withdraw"})})))
+                           (fact "No filter"
+                                 (let [response (app (mock/request :get "/transactions"))]
+                                   (:status response) => 200
+                                   (:body response) => (json/generate-string {:transactions '({:id 1 :amount 2000 :type "Deposit"}
+                                                                                              {:id 2 :amount 89 :type "Withdraw"})})))))

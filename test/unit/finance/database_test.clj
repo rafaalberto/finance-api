@@ -31,3 +31,20 @@
              (insert {:amount 200 :type "Withdraw"})
              (insert {:amount 1000 :type "Deposit"})
              (get-balance) => 808))
+
+(facts "Filter transactions by type"
+       (def random-transactions '({:amount 2 :type "Withdraw"}
+                                  {:amount 10 :type "Deposit"}
+                                  {:amount 200 :type "Withdraw"}
+                                  {:amount 1000 :type "Deposit"}))
+       (against-background
+         [(before :facts
+                  [(clear)
+                   (doseq [transaction random-transactions]
+                     (insert transaction))])]
+         (fact "Find only Deposits"
+               (transactions-by-type "Deposit") => '({:amount 10 :type "Deposit"}
+                                                     {:amount 1000 :type "Deposit"}))
+         (fact "Find only Withdraws"
+               (transactions-by-type "Withdraw") => '({:amount 2 :type "Withdraw"}
+                                                      {:amount 200 :type "Withdraw"}))))

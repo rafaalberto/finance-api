@@ -19,6 +19,9 @@
                (-> (database/insert (:body request))
                    (content-as-json 201))
                (content-as-json {:message "Invalid request"} 422)))
+           (GET "/transactions" [] (content-as-json {:transactions (database/get-transactions)}))
+           (GET "/deposits" [] (content-as-json {:transactions (database/transactions-by-type "Deposit")}))
+           (GET "/withdraws" [] (content-as-json {:transactions (database/transactions-by-type "Withdraw")}))
            (route/not-found "Not Found"))
 
 (def app
