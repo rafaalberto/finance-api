@@ -53,3 +53,9 @@
  - Coverage
 
     `lein cloverage --runner :midje`
+
+ - Generate Jar file
+
+    `lein clean`
+
+    `lein ring uberjar`
