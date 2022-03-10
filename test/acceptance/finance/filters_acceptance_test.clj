@@ -5,10 +5,10 @@
             [finance.database :as database]))
 
 (def random-transactions
-  '({:amount 7.0M :type "Withdraw"}
-    {:amount 88.0M :type "Withdraw"}
-    {:amount 106.0M :type "Withdraw"}
-    {:amount 8000.0M :type "Deposit"}))
+  '({:amount 7.0M :type "Withdraw" :labels ["ice cream" "entertainment"]}
+    {:amount 88.0M :type "Withdraw" :labels ["book" "education"]}
+    {:amount 106.0M :type "Withdraw" :labels ["course" "education"]}
+    {:amount 8000.0M :type "Deposit" :labels ["salary"]}))
 
 (against-background
   [(before :facts
