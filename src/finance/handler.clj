@@ -19,7 +19,11 @@
                (-> (database/insert (:body request))
                    (content-as-json 201))
                (content-as-json {:message "Invalid request"} 422)))
-           (GET "/transactions" [] (content-as-json {:transactions (database/get-transactions)}))
+           (GET "/transactions" {filters :params}
+             (content-as-json {:transactions
+                               (if (empty? filters)
+                                 (database/get-transactions)
+                                 (database/transactions-by-filter filters))}))
            (GET "/deposits" [] (content-as-json {:transactions (database/transactions-by-type "Deposit")}))
            (GET "/withdraws" [] (content-as-json {:transactions (database/transactions-by-type "Withdraw")}))
            (route/not-found "Not Found"))

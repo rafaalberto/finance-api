@@ -35,4 +35,13 @@
                    (json/parse-string (get-content "/deposits") true))) => 1)
     (fact "There are 4 transactions" :acceptance
           (count (:transactions
-                   (json/parse-string (get-content "/transactions") true))) => 4)))
+                   (json/parse-string (get-content "/transactions") true))) => 4)
+    (fact "There is 1 'Deposit' with 'salary' label" :acceptance
+          (count (:transactions
+                   (json/parse-string (get-content "/transactions?labels=salary") true))) => 1)
+    (fact "There are 2 'Withdraw' with 'book' or 'course' label" :acceptance
+          (count (:transactions
+                   (json/parse-string (get-content "/transactions?labels=book&labels=course") true))) => 2)
+    (fact "There are 2 'Withdraw' with 'education' label" :acceptance
+          (count (:transactions
+                   (json/parse-string (get-content "/transactions?labels=education") true))) => 2)))

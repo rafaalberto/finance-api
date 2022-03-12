@@ -26,3 +26,10 @@
 
 (defn transactions-by-type [type]
   (filter #(= type (:type %)) (get-transactions)))
+
+(defn transactions-by-filter [filters]
+  (let [labels (->> (:labels filters)
+                    (conj [])
+                    (flatten)
+                    (set))]
+    (filter #(some labels (:labels %)) (get-transactions))))

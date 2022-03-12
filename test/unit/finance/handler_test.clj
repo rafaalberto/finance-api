@@ -51,3 +51,20 @@
                                    (:status response) => 200
                                    (:body response) => (json/generate-string {:transactions '({:id 1 :amount 2000 :type "Deposit"}
                                                                                               {:id 2 :amount 89 :type "Withdraw"})})))))
+
+(facts "Filter transactions using parameters"
+       (def book {:id 1 :amount 88 :type "Withdraw" :labels ["book" "education"]})
+       (def course {:id 2 :amount 106 :type "Withdraw" :labels ["course" "education"]})
+       (def salary {:id 3 :amount 8000 :type "Deposit" :labels ["salary"]})
+
+       (against-background [(database/transactions-by-filter {:labels ["book" "course"]}) => [book course]
+                            (database/transactions-by-filter {:labels "salary"}) => [salary]]
+
+                           (fact "Filter using multiple labels"
+                                 (let [response (app (mock/request :get "/transactions?labels=book&labels=course"))]
+                                   (:status response) => 200
+                                   (:body response) => (json/generate-string {:transactions [book course]})))
+                           (fact "Filter using one label"
+                                 (let [response (app (mock/request :get "/transactions?labels=salary"))]
+                                   (:status response) => 200
+                                   (:body response) => (json/generate-string {:transactions [salary]})))))

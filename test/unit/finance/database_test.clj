@@ -48,3 +48,23 @@
          (fact "Find only Withdraws"
                (transactions-by-type "Withdraw") => '({:amount 2 :type "Withdraw"}
                                                       {:amount 200 :type "Withdraw"}))))
+
+(facts "Filter transactions by label"
+       (def random-transactions '({:amount 7.0M :type "Withdraw" :labels ["ice cream" "entertainment"]}
+                                  {:amount 88.0M :type "Withdraw" :labels ["book" "education"]}
+                                  {:amount 106.0M :type "Withdraw" :labels ["course" "education"]}
+                                  {:amount 8000.0M :type "Deposit" :labels ["salary"]}))
+       (against-background
+         [(before :facts
+                  [(clear)
+                   (doseq [transaction random-transactions]
+                     (insert transaction))])]
+         (fact "Find transaction with label 'salary'"
+               (transactions-by-filter {:labels "salary"}) => '({:amount 8000.0M :type "Deposit" :labels ["salary"]}))
+         ;(fact "Find transactions with label 'education'"
+         ;      (transactions-by-filter {:labels "education"}) => '({:amount 88.0M :type "Withdraw" :labels ["book" "education"]}
+         ;                                                          {:amount 106.0M :type "Withdraw" :labels ["course" "education"]}))
+         ;(fact "Find transactions with label 'book' or 'course'"
+         ;      (transactions-by-filter {:labels ["book" "course"]}) => '({:amount 88.0M :type "Withdraw" :labels ["book" "education"]}
+         ;                                                                {:amount 106.0M :type "Withdraw" :labels ["course" "education"]}))
+         ))
